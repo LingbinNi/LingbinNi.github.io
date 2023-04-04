@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>Lingbin Ni | Projects</title>
+  <title>Lingbin Ni | Genome Assembly of Soybean Accession</title>
   <meta name="description" content="This is the personal website of Otilia Stretcu">
 
   <!-- Fonts and Icons -->
@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="/assets/css/all.min.css">
   <link rel="stylesheet" href="/assets/css/academicons.min.css">
   <link rel="stylesheet" href="/assets/css/main.css">
-  <link rel="canonical" href="/projects/">
+  <link rel="canonical" href="/projects/2_livex/">
 </head>
 <body>
   <!-- Header -->
@@ -49,11 +49,9 @@
 
 
 
-              <li class="nav-item navbar-active font-weight-bold">
+              <li class="nav-item ">
                   <a class="nav-link" href="/projects/">
                     Projects
-
-                      <span class="sr-only">(current)</span>
 
                   </a>
               </li>
@@ -94,138 +92,37 @@
   <!-- Content -->
   <div class="content">
 
-  <h1>Projects</h1>
-  <h6>some of the projects I have worked on</h6>
+  <h1>Genome Assembly of Soybean Accession</h1>
 
+<p><br /></p>
 
-  <p><br /></p>
+<p>The de novo assembly and sequence analysis of a Chinese soybean genome for “Zhonghuang 13” by a combination of SMRT, Hi–C and optical mapping data.</p>
 
+<p><br /></p>
 
-  <div class="row m-0 p-0" style="border-top: 1px solid #ddd;">
-        <h3>Research projects</h3>
-  </div>
+<h2 id="overview">Overview</h2>
 
-  <div id="projects" class="row mt-2 pt-3" style="overflow: visible !important;">
+<p><br /></p>
 
-<!-- Project 1 -->
-    <div class="project-card">
+<div class="col-xs-12 col-sm-6 p-0 pt-2 pb-sm-2 pb-4 pl-sm-4 text-center">
+  <img class="profile-img img-responsive" src="/assets/img/ZH13.jpg" />
+  <a href="/assets/img/ZH13.jpg">Assembly pipeline of ZH13 genome</a>
+</div>
 
-        <a href="/projects/2_livex/">
+<p><br /></p>
 
-        <div class="card">
-          <img class="card-img-top" src="/assets/img/pan-3Dgenome.jpg" alt="project thumbnail" />
-          <div class="card-body">
-            <h5 class="card-title">3D Genomic Diversity in Plant Accessions</h5>
-            <p class="card-text">High-order chromatin structure plays important roles in gene regulation. However, the diversity of 3D genome in plant accessions are seldom reported.</p>
-            <div class="row ml-1 mr-1 p-0">
-            </div>
-          </div>
-        </div>
-      </a>
-    </div>
-<!-- End Project 1 -->
+<h2 id="smartphone-demos">Conclusions</h2>
+<ul>
+  <li>A new golden reference genome for Zhonghuang 13 consists of 20 nearly complete chromosomes.</li>
+  <li>Large RNA-seq and smRNA-seq datasets improve the annotation of protein coding genes.</li>
+  <li>High-quality genome sequence will greatly facilitate soybean fundamental research and molecular breeding.</li>
+</ul>
 
-<!-- Project 2 -->
-    <div class="project-card">
+<p><br /></p>
 
-        <a href="/projects/1_video/">
+<h2 id="more-information">Reference</h2>
 
-        <div class="card">
-          <img class="card-img-top" src="/assets/img/genome-assembly.jpg" alt="project thumbnail" />
-          <div class="card-body">
-            <h5 class="card-title">Genome Assembly of Soybean Accession</h5>
-            <p class="card-text">The de novo assembly and sequence analysis of a Chinese soybean genome for “Zhonghuang 13” by a combination of SMRT, Hi–C and optical mapping data.</p>
-            <div class="row ml-1 mr-1 p-0">
-            </div>
-          </div>
-        </div>
-      </a>
-    </div>
-<!-- End Project 2 -->
-
-<!-- Project 3 -->
-    <div class="project-card">
-
-        <a href="/projects/3_database/">
-
-        <div class="card">
-          <img class="card-img-top" src="/assets/img/database.jpg" alt="project thumbnail" />
-          <div class="card-body">
-            <h5 class="card-title">Multi-Omics Database Development</h5>
-            <p class="card-text">An integrated soybean multi-omics database named SoyOmics of genomic, transcriptomic, epigenomic, and phenotypic data of diverse accessions.</p>
-            <div class="row ml-1 mr-1 p-0">
-            </div>
-          </div>
-        </div>
-      </a>
-    </div>
-<!-- End Project 3 -->
-
-  </div>
-
-  <p><br /></p>
-
-  <div class="row m-0 p-0" style="border-top: 1px solid #ddd;">
-        <h3>Course projects</h3>
-  </div>
-
-  <div id="projects" class="row mt-2 pt-3" style="overflow: visible !important;">
-
-<!-- Project 4 -->
-    <div class="project-card">
-
-        <a href="/projects/course_Intrusion-Detection/">
-
-        <div class="card">
-          <img class="card-img-top" src="/assets/img/pan-3Dgenome.jpg" alt="project thumbnail" />
-          <div class="card-body">
-            <h5 class="card-title">Intrusion Detection by Scikit Decision Tree</h5>
-            <p class="card-text">Using Scikit decision tree classification algorithm to detect network intrusions.</p>
-            <div class="row ml-1 mr-1 p-0">
-            </div>
-          </div>
-        </div>
-      </a>
-    </div>
-<!-- End Project 4 -->
-
-<!-- Project 5 -->
-    <div class="project-card">
-
-        <a href="/projects/course_Guoren/">
-
-        <div class="card">
-          <img class="card-img-top" src="/assets/img/genome-assembly.jpg" alt="project thumbnail" />
-          <div class="card-body">
-            <h5 class="card-title">Guoren - A Social Network Site for UCAS</h5>
-            <p class="card-text">A social platform for students in UCAS under the Ruby on Rails framework.</p>
-            <div class="row ml-1 mr-1 p-0">
-            </div>
-          </div>
-        </div>
-      </a>
-    </div>
-<!-- End Project 5 -->
-
-<!-- Project 6 -->
-    <div class="project-card">
-
-        <a href="/projects/course_JavaUDPCommunication/">
-
-        <div class="card">
-          <img class="card-img-top" src="/assets/img/database.jpg" alt="project thumbnail" />
-          <div class="card-body">
-            <h5 class="card-title">Java UDP Communication Demo</h5>
-            <p class="card-text">An UDP communication application between the server and the client completed by Java.</p>
-            <div class="row ml-1 mr-1 p-0">
-            </div>
-          </div>
-        </div>
-      </a>
-    </div>
-<!-- End Project 6 -->
-
-  </div>
+<p>Shen Y, Du H, Liu Y, Ni L, Wang Z, Liang C, Tian Z. (2019). <a href="https://link.springer.com/article/10.1007/s11427-019-9822-2">Update soybean Zhonghuang 13 genome to a golden reference</a>. Sci China Life Sci 62, 1257-1260.</p>
 
 
   </div>
