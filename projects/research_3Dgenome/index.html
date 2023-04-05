@@ -134,7 +134,7 @@
   In this study, we perform the pan-3D genome analysis using Hi-C sequencing data from 27 soybean accessions and comprehensively investigate the relationships between 3D genomic variations and structural variations (SVs) as well as gene expression. This project represents the first studies of 3D genomic diversity investigations across multiple accessions in plant species, and provide a deeper insight into genome evolution and gene regulation in plant accessions.
 </div>
 
-<h3 class="title mt-4 p-0 text-left">3D genome analysis</h3>
+<h3 class="title mt-4 p-0 text-left">Data preparation</h3>
 
 <div class="col mt-4 p-0">
   To investigate the 3D genome organization in soybean, we performed in situ Hi-C sequencing of the 27 accessions which included 3 wild soybeans, 9 landraces, and 15 improved cultivars. The in situ Hi-C experiment for each accession was designed with two biological replicates, and each replicate produced an average of ~470 million raw read pairs and ~100 million unique long-range (more than 20 kb) cis contacts. The two biological replicates of each accession were highly reproducible. Complementing these Hi-C data, we profiled the transcriptome through RNA sequencing (RNA-seq) in these accessions.
@@ -175,7 +175,12 @@
   At <a href="http://aclweb.org/anthology/D18-1039" target="_blank">EMNLP 2018</a>, we introduced the <i>contextual parameter generator (CPG)</i>, a new way to share information across different languages that generalizes the above three approaches, while mitigating their issues and allowing explicit control over the amount of sharing.
 </div>
 
-<h3 class="title mt-4 p-0 text-left">A/B compartment</h3>
+
+
+
+
+
+<h3 class="title mt-4 p-0 text-left">3D genome analysis</h3>
 
 <div class="col mt-4 p-0">
   Using the in situ Hi-C sequencing data, we checked the organization of A/B compartments and found certain differentiation of A/B compartments within chromosomes. For example, we observed differences around pericentromeric heterochromatin of chromosome 18 in SoyC13 and SoyC03, and variations in the euchromatin arms of chromosome 11 in SoyW02 and SoyC13. Despite these differences, the average A compartment percentages were relatively consistent across individual accessions. Collectively, these results reveal that the overall percentages of compartments are conserved, but the reorganization of A/B compartments within chromosomes occurs frequently in soybean accessions.
@@ -206,6 +211,45 @@
 </div>
 
 <h3 class="title mt-4 text-left p-0">Pan-3D genome analysis</h3>
+
+<h4 class="title mt-4 p-0 text-left">A/B compartment</h4>
+
+<div class="col mt-4 p-0">
+  We performed pan-analyses of A/B compartments through the investigation of their conservation and variation across the 27 soybean accessions. It showed that 78.5% of the compartment bins in the genome exhibited conservation. Modeling the pan-3D genome size by iteratively randomly sampling accessions suggested a closed pan-3D genome with finite numbers of both conservative and variable compartments, which showed a similar pattern to our previous pan-genome analyses. The A compartments showed a higher ratio of conservative compartments than B compartments. We then inspected the variable compartments by dividing them into three types: compartments with only A compartments, compartments with only B compartments, and compartments with both A and B compartments (AB variable compartments). A large proportion (64.83%) of the compartment variation occurred in AB variable compartments, indicating extensive compartment switching across soybean accessions.
+</div>
+
+<h4 class="title mt-4 p-0 text-left">TAD boundary</h4>
+
+<div class="col mt-4 p-0">
+  We performed the pan-3D genome analysis of boundaries by adopting a method combining the alignment and clustering of boundaries across 27 accessions. We found that nearly 20% (708/4,505) of the boundary clusters were categorized as core types, 41.82% (1884/4505) were categorized as dispensable types, and 42.46% (1913/4505) were categorized as private types. GO analysis showed that the core types were mainly involved in basic metabolism and transcription processes, while the dispensable types were involved in various noncoding RNAs and posttranscriptional RNA processing. No significant enrichment was found for the private types, indicating that private boundaries may participate in specific biological functions.
+</div>
+
+<div class="col mt-2 p-0">
+Genomic feature analyses demonstrated that the common/core boundaries had the highest TSS density and lowest GC content and repeat percentage. We then investigated the enrichment of different repeat types around boundaries of the pan-3D genome. Surprisingly, two opposite patterns were observed. The first pattern showed a higher proportion of repeat elements in the specific boundaries than in the core and dispensable boundaries, such as Gypsy elements and satellite repeats, indicating that these two types of elements may play an important roles in specific boundary formation. In contrast, the second pattern showed a higher proportion of repeats in the core boundaries, including LINEs, SINEs, and all DNA transposons except Helitron elements. Additionally, the distributions of several repeat types, such as Copia elements and Helitron elements, seemed to be unclear. Moreover, we found that LINEs and SINEs were enriched around the boundaries of core and dispensable types but showed a depleted pattern around specific boundaries.
+</div>
+
+<h3 class="title mt-4 text-left p-0">Structural variation analysis</h3>
+
+<div class="col mt-4 p-0">
+  We next investigated the contributions of these different types of SVs to 3D genome variation. Each type of SVs contributed to boundary variations significantly. Nevertheless, less than half of the boundary variations could be independently explained by SVs, among which PBA-PAV showed the largest (42.05%) contribution. Additionally, ABA-PAV contributed 4.97% of the boundary variations, which was second only to the contribution of PBA-PAV. These results indicated that PAVs, not CNVs, INVs, or TRANSs, played the most important roles in boundary variations. Next, we checked the effect of SVs on boundary variations. As expected, ABA-PAV showed the largest effect on boundary variations. Interestingly, for most balanced rearrangements, such as INVs or TRANSs, we did not observe extensive conservation of boundaries with either ABA types or PBA types, implying that boundaries were not solely dependent on sequence conservation during genomic rearrangement across soybean accessions. Together, these results reveal that at the global level, there are significant correlations between SVs and 3D genome variations but relatively finite changes of 3D genomes, indicating that SVs play a contributory but not deterministic role in 3D genome variations.
+</div>
+
+<div class="col mt-2 p-0">
+  TE insertion is an important contributor driving SV formation. Hence, we investigated the effects of TEs in driving SVs causing 3D genome variation. For most TEs, we did observe a lower percentage in ABA or PBA SVs than in NBA SVs. Similar patterns were also observed for most TRs. Only Gypsy elements and satellite repeats showed extremely significant enrichment in ABA SVs relative to PBA SVs, consistent with the results showing that these two repeats were enriched in private boundaries.
+</div>
+
+<h3 class="title mt-4 text-left p-0">Selection analysis</h3>
+
+<div class="col mt-4 p-0">
+  Using the pan-3D genome data, we observed a core set of over 1800 TAD boundary clusters shared by all three soybean groups. In addition, 457, 521, and 1091 specific TAD boundary clusters were identified for individual G. soja, landrace, and improved cultivar groups. Combining with pairwise population differentiation level (FST) across different soybean groups, we found the selection of TAD boundaries was higher than that of non-boundaries during the soybean domestication, whereas no significant difference during improvement. Further investigation suggested that the genes around selected TAD boundaries had higher expression levels than those of unselected TAD boundaries.
+</div>
+
+<div class="col mt-2 p-0">
+We found the expression variations of some domesticated genes were closely related to the 3D genomic variations. For example, SoyZH13_14G139200 was located in a domesticated selection sweep region. Structural variations led to the loss of the TAD boundary in two wild soybeans SoyW02, SoyW03, and one landrace SoyL02. As a result, we observed that the SoyZH13_14G139200 showed significant higher expression level in these 3 accessions than the others. These data suggested that 3D genome structure variation may also play an important role in soybean domestication and improvement.
+</div>
+
+<h3 class="title mt-4 text-left p-0">Conclusions</h3>
+
 
 <h3 class="title mt-4 p-0 text-left">Where should you look to learn more?</h3>
 
