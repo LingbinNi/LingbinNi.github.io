@@ -99,12 +99,70 @@
   </ol>
 </nav>
 
-  <h1>Lane Detection</h1>
-  <h3>Finding Lane Lines on the Road</h2>
+  <h1>Intrusion Detection by Scikit Decision Tree</h1>
+  <h3>Using Scikit decision tree classification algorithm to detect network intrusions</h2>
 
 
 <p><br />
-I did this project as a part of the Udacity Self-Driving Car Nanodegree program. It is an implementation in Python 3 to detect lane lines on the road. In this blog post I have described the pipeline to achieve this task. The complete code for the project is available <a href="https://github.com/sheelabhadra/CarND-LaneLines-P1">here</a>.</p>
+I did this project as a part of the Data Mining course. It is an implementation in Python 2 to detect intrusions of the connections, which was completed by Zhaoqing Peng, Junyi Dai, Dastan, and me. In this blog post I have described the pipeline to achieve this task. The complete code for the project is available <a href="https://github.com/sheelabhadra/CarND-LaneLines-P1">here</a>.</p>
+
+<h3 id="description-of-the-pipeline"><strong>Description of the pipeline</strong></h3>
+<hr />
+<p>The purpose of network intrusion detection is to prevent computer networks from avoiding non -authorized users' infringement. Using machine learning methods, network invasion detectors can build prediction models through learning, which can distinguish harmful connections (invasion or attack) and normal connections.</p>
+
+<p>Generally speaking, invasion is divided into four main types:</p>
+<p>1) DOS (Denial-OF-Service): Request rejection, such as flood attacks.</p>
+<p>2) R2L: Unauthorized access to remote machines, such as guessing passwords.</p>
+<p>3) U2R: Unauthorized access to local super user privileges, such as overflow attacks of multiple buffers.</p>
+<p>4) Probing: monitoring or other monitoring, such as port scanning.</p>
+<p>
+  Some characteristics can be used to distinguish ordinary connections and invasion, such as:
+  Same Host: Check the connection within two seconds of the previous connection as the current connection has the same destination host, and calculate and protocol -related behaviors, services, and so on.
+  Same Service: Just check that the connection within two seconds has the same service as the current connection.
+  Same Host and Same Service are also known as Time-based Traffic Features of the Connection Records.
+  However, some probing attacks use more than two seconds time interval scanning hosts or ports, such as once a minute. Therefore, the connection record is also sorted by the destination host, and the feature is constructed by the window of 100 connected to the same host instead of using a real -time window. This produces a data set called Host-based Traffic Features.
+  Different from the invasion of most DOS and Probing, there is no frequent sequence mode in R2L and U2R invasion. This is because DOS and Probing invasion contains many connections with the host in a short period of time. However, R2L and U2R invasion are embedded in data ports and packets, and they generally include only one connection.
+</p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <h3 id="description-of-the-pipeline"><strong>Description of the pipeline</strong></h3>
 <hr />
