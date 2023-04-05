@@ -103,7 +103,7 @@
   <h3>Using Scikit decision tree classification algorithm to detect network intrusions</h2>
 
 <p><br />
-I did this project as a part of the Data Mining course. It is an implementation in Python 2 to detect intrusions of the connections, which was completed by Zhaoqing Peng, Junyi Dai, Dastan, and Lingbin Ni. In this blog post I have described the pipeline to achieve this task. The complete code for the project is available <a href="https://github.com/sheelabhadra/CarND-LaneLines-P1">here</a>.</p>
+I did this project as a part of the Data Mining course. It is an implementation in Python 2 to detect intrusions of the connections, which was completed by Zhaoqing Peng, Junyi Dai, Dastan, and Lingbin Ni. In this blog post I have described the pipeline to achieve this task. The complete code for the project is available <a href="https://github.com/LingbinNi/Intrusion-Detection">here</a>.</p>
 
 <h3 id="description-of-the-pipeline"><strong>Overview of network intrusion detection</strong></h3>
 <hr />
@@ -135,37 +135,18 @@ I did this project as a part of the Data Mining course. It is an implementation 
 
 <h3 id="description-of-the-pipeline"><strong>Scikit Decision Tree Classification</strong></h3>
 <hr />
-<p>My pipeline consists of 7 steps. For illustration I have used an example image shown below to show the effect of all the operations in my pipeline.</p>
-
-<p align="center">
-  <img src="/assets/img/lane_detection/original_image.jpg" />
-</p>
 
 
-
-
-
-<h4 id="1-color-to-grayscale-conversion">1. Loading Data</h4>
+<h4 id="1-color-to-grayscale-conversion">1. Loading data</h4>
 <p>We extract all the training and testing sets from MongoDB. Since the decision tree can accelerate training with ordered inputs, we use the sort command to sort the type attributes in the training set. Then, all the inputs in the training and testing sets are stored in the dataset, and all the output targets are stored in the datatarget. To distinguish between the training and testing sets, we use T_ Len records the size of the training set.</p>
 
-<p align="center">
-  <img src="/assets/img/lane_detection/grayscale.jpg" />
-</p>
-
-
-
-<h4 id="2-gaussian-blur">2. Category Variable Recoding</h4>
+<h4 id="2-gaussian-blur">2. Category variable recoding</h4>
 <p>For categorical variables, such as male and female, high and low, these string variables cannot be directly input into the algorithm model and need to be recoded as numbers 1,2,3,4 or binary bitmaps.</p>
 <p>However, for scalars with ordered sizes such as 1,2,3,4, some algorithms understand that 2 is greater than 1, meaning that men are greater than women. In fact, men and women only represent men or women without any relationship between order and size. Therefore, binary encoding is generally used: men are represented by 01, and women are represented by 10. And this increases the number of variables, from one-dimensional variable sex to two-dimensional variables sex=male and sex=female. Therefore, if there are many types of categorical variables, the final encoded variable dimension will greatly increase, which is not conducive to calculation and is called a dimension disaster.</p>
 <p>For the decision tree algorithm, it utilizes information purity for classification, so encoding as 1,2,3 will not have any impact. So we will recode the three category variables (protocol_type, service, flag) in the dataset into a set of numbers.</p>
 
-<p align="center">
-  <img src="/assets/img/lane_detection/Gaussian_blur.jpg" />
-</p>
 
-
-
-<h4 id="3-canny-transform">3. Feature Selection</h4>
+<h4 id="3-canny-transform">3. Feature selection</h4>
 <p>The following situations may occur between variables in a general dataset:</p>
 <p>1) Variables with strong correlation and severe interdependence can lead to redundant variables</p>
 <p>2) The data in variables is extremely sparse, with a large portion being either zero or meaningless</p>
@@ -174,25 +155,13 @@ I did this project as a part of the Data Mining course. It is an implementation 
 <p>After the recoding of the previous category variables, dataset variables have 42 dimensions in total. The training of high-dimensional datasets in the decision tree is prone to overfitting, so we need to filter variables, that is, feature selection. A good set of features can directly affect the accuracy of the algorithm. Scikit has provided a tree based attribute subset selection method, We directly input the data into the ExtraTreesClassifier for training here, then use SelectFromModel to extract the trained model, and finally use the transform method to filter out important features.</p>
 <p>Due to the fact that variables in the test set also need to be filtered, but the filtering principle should be consistent with the training set, otherwise the input of the training set and the test set will be different. Therefore, we will store the index of this set of features in fea_index array.</p>
 
-<p align="center">
-  <img src="/assets/img/lane_detection/Canny_edges.jpg" />
-</p>
 
-
-
-<h4 id="4-region-of-interest-mask">4. Cross Validation 1</h4>
+<h4 id="4-region-of-interest-mask">4. Cross validation 1</h4>
 <p>Before training the model, we use 1/10 of the training set for cross validation and the remaining data for training. Therefore, we divide the training set into two parts:<p>
 <p>1) training_set、training_target: used to train the model<p>
 <p>2) test_set、test_ target: used for cross validation<p>
 
-<p align="center">
-  <img src="/assets/img/lane_detection/masked_image.jpg" />
-</p>
-
-
-
-
-<h4 id="5-hough-transform">5. Training Decision Tree Model</h4>
+<h4 id="5-hough-transform">5. Training decision tree model</h4>
 <p>Decision tree is a non parametric supervised learning algorithm, commonly used are ID3, C4.5 and CART. ID3 and C4.5 are based on information entropy, CART is based on gini impurity. Scikit provides an optimized version of CART algorithm, which is encapsulated in DecisionTree Classifier, and has some main parameters:<p>
 <p>• criterion: The criterion for node splitting, gini or entropy<p>
 <p>• max_depth: the maximum depth of the tree. If the value is too large, the algorithm will overfitting the training set, while if the value is too small, the algorithm will be hindered from learning the data. The initial value is recommended to be 5, and then slowly increase it.<p>
@@ -200,73 +169,17 @@ I did this project as a part of the Data Mining course. It is an implementation 
 <p>• class_weight: When the number of categories in the input sample set varies greatly, the final shape of the tree tends to be generated in the direction of big data samples, resulting in imbalanced trees. Therefore, the weights of each category can be set. Classes with less data have greater weights, while those with more data have smaller weights, which can effectively balance the tree.<p>
 <p>Through repeated attempts, we found a good set of training parameters: using information entropy to split each node; min_ samples_ split＝30； Ensure that all training samples are fully balanced, that is, the number of input tuples is equal.<p>
 
-<p align="center">
-  <img src="/assets/img/lane_detection/line_edges.jpg" />
-</p>
 
-
-
-
-<h4 id="6-drawing-lane-lines">6. Cross Validation 2</h4>
+<h4 id="6-drawing-lane-lines">6. Cross validation 2</h4>
 <p>We predict 1/10 of the training set (test_set), and compare the obtained predict value (trained_target) and actual value (test_target), and output confusion matrix and classification results statistics to verify the effectiveness of the trained model for data sets with the same probability distribution.</p>
-
-<ul>
-  <li>
-    <p>The slope of each line segment is calculated using the formula <code class="highlighter-rouge">(y2-y1)/(x2-x1)</code>.</p>
-  </li>
-  <li>
-    <p>The slope of the lane lines lie within a particular range and this information is helpul in rejecting spurious line segments. I used a range of (0.5, 2.5) for the left lane line and (-2.5,-0.5) for the right lane line. Line segments with slope values outside of these range were ignored. The coordinates belonging to the left lane line were put into arrays <code class="highlighter-rouge">left_lane_x</code>, <code class="highlighter-rouge">left_lane_y</code> and the coordinates belonging to the right lane line were put into arrays <code class="highlighter-rouge">right_lane_x</code>, <code class="highlighter-rouge">right_lane_y</code>.</p>
-  </li>
-  <li>
-    <p>The np.polyfit() function is helpful in constructing a line given a set of points. More information on this function can be found <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.polyfit.html">here</a>. The degree was set to 1 and was applied to the arrays <code class="highlighter-rouge">left_lane_x</code>, <code class="highlighter-rouge">left_lane_y</code> to find the slope and intercept values of the left lane line and to the arrays <code class="highlighter-rouge">right_lane_x</code>, <code class="highlighter-rouge">right_lane_y</code> to find the slope and intercept values of the right lane line.</p>
-  </li>
-  <li>
-    <p>The points of intersection of the 2 lane lines with the region of interest were calculated and the lane lines were drawn only inside the region of interest.</p>
-  </li>
-</ul>
-
-<p align="center">
-  <img src="/assets/img/lane_detection/lane_lines.jpg" />
-</p>
-
-
 
 <h4 id="1-color-to-grayscale-conversion">7. Testing</h4>
 <p>Finally, we test whether the trained model can predict test data well. We use T_len to retrieve the test_data_test and test_ data_target from the dataset, then use fea_index to extract sub attributes (features) from the test input, and finally compares the predicted value (test_ trained_ target) and actual value (test_ data_ target).</p>
 
-<p align="center">
-  <img src="/assets/img/lane_detection/grayscale.jpg" />
-</p>
-
-
-
-
-
-
-
-
-<h3 id="potential-shortcomings"><strong>Potential shortcomings</strong></h3>
-<hr />
-
-<ul>
-  <li>If the intensity of the lane lines varies a lot in the video due to different angles of the sun, then my pipeline does not perform well.</li>
-  <li>If there are portions of the entire road that are white in color then the lane lines are not identified correctly.</li>
-  <li>The lane lines are not stable at times when a few outlier points are detected.</li>
-  <li>Due to the shortcoming mentioned above my pipeline performs awfully on the <code class="highlighter-rouge">challenge.mp4</code> video.</li>
-  <li>My pipeline will not work on roads that do not contain lane markings</li>
-</ul>
-
-<h3 id="possible-improvements"><strong>Possible improvements</strong></h3>
-<hr />
-
-<ul>
-  <li>A possible improvement would be to track the yellow lane line by using color masking.</li>
-  <li>The lane lines can be smoothed by keeping track of the lane lines in the previous video frames.</li>
-</ul>
 
 <h3 id="possible-improvements"><strong>Repository</strong></h3>
 <hr />
-<p>https://github.com/LingbinNi/Intrusion-Detection<p>
+<p>https://github.com/LingbinNi/Intrusion-Detection</p>
 
 
 
