@@ -155,31 +155,6 @@
   <h6 class="font-italic text-center mt-2" style="color: #78909c;"><u>Figure 3:</u> Overview of existing approaches for multilingual neural machine translation.</h6>
 </div>
 
-<div class="col mt-4 p-0">
-  Assuming that we have \(L\) languages and \(P\) trainable parameters per NMT model (these could be, for example, the weights and biases of a recurrent neural network) that translates from a single source language to a single target language, we have:
-</div>
-
-<ol class="mt-2">
-  <li>
-    <b>Pairwise:</b> Use a pairwise NMT model per language pair. This results in \(L^2\) separate models, each with \(P\) parameters. The main issue with this approach is that no information is shared between different languages, and even between models translating from English to other languages, for example. This is especially problematic for low-resource languages, where we have very little training data available, and would ideally want to leverage the high availability of data for other languages, such as English.
-  </li>
-  <li>
-    <b>Universal:</b> Use a single NMT model for all language pairs. In this case, an artificial word can be added to the source sentence denoting the target language for the translation. This results in a single model with \(P\) parameters, since the whole model is shared across all languages. This approach can result in overfitting to the high-resource languages. It can also limit the expressivity of the translation model for languages that are more "different" (e.g., for Turkish, if training using Italian, Spanish, Romanian, and Turkish). Ideally, we want something in-between pairwise and universal models.
-  </li>
-  <li>
-    <b>Per-Language Encoder/Decoder:</b> Use a separate encoder and a separate decoder for each language. This results in a total of \(LP\) parameters and lies somewhere between the pairwise and the universal approaches. However, no information can be shared between languages that are similar (e.g., Italian and Spanish).
-  </li>
-</ol>
-
-<div class="col mt-2 p-0">
-  At <a href="http://aclweb.org/anthology/D18-1039" target="_blank">EMNLP 2018</a>, we introduced the <i>contextual parameter generator (CPG)</i>, a new way to share information across different languages that generalizes the above three approaches, while mitigating their issues and allowing explicit control over the amount of sharing.
-</div>
-
-
-
-
-
-
 <h3 class="title mt-4 p-0 text-left">3D genome analysis</h3>
 
 <h4 class="title mt-4 p-0 text-left">A/B compartment</h4>
