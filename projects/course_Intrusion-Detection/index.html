@@ -102,120 +102,113 @@
   <h1>Intrusion Detection by Scikit Decision Tree</h1>
   <h3>Using Scikit decision tree classification algorithm to detect network intrusions</h2>
 
-
 <p><br />
-I did this project as a part of the Data Mining course. It is an implementation in Python 2 to detect intrusions of the connections, which was completed by Zhaoqing Peng, Junyi Dai, Dastan, and me. In this blog post I have described the pipeline to achieve this task. The complete code for the project is available <a href="https://github.com/sheelabhadra/CarND-LaneLines-P1">here</a>.</p>
+I did this project as a part of the Data Mining course. It is an implementation in Python 2 to detect intrusions of the connections, which was completed by Zhaoqing Peng, Junyi Dai, Dastan, and Lingbin Ni. In this blog post I have described the pipeline to achieve this task. The complete code for the project is available <a href="https://github.com/sheelabhadra/CarND-LaneLines-P1">here</a>.</p>
 
-<h3 id="description-of-the-pipeline"><strong>Description of the pipeline</strong></h3>
+<h3 id="description-of-the-pipeline"><strong>Overview of network intrusion detection</strong></h3>
 <hr />
 <p>The purpose of network intrusion detection is to prevent computer networks from avoiding non -authorized users' infringement. Using machine learning methods, network invasion detectors can build prediction models through learning, which can distinguish harmful connections (invasion or attack) and normal connections.</p>
-
 <p>Generally speaking, invasion is divided into four main types:</p>
 <p>1) DOS (Denial-OF-Service): Request rejection, such as flood attacks.</p>
 <p>2) R2L: Unauthorized access to remote machines, such as guessing passwords.</p>
 <p>3) U2R: Unauthorized access to local super user privileges, such as overflow attacks of multiple buffers.</p>
 <p>4) Probing: monitoring or other monitoring, such as port scanning.</p>
-<p>
-  Some characteristics can be used to distinguish ordinary connections and invasion, such as:
-  Same Host: Check the connection within two seconds of the previous connection as the current connection has the same destination host, and calculate and protocol -related behaviors, services, and so on.
-  Same Service: Just check that the connection within two seconds has the same service as the current connection.
-  Same Host and Same Service are also known as Time-based Traffic Features of the Connection Records.
-  However, some probing attacks use more than two seconds time interval scanning hosts or ports, such as once a minute. Therefore, the connection record is also sorted by the destination host, and the feature is constructed by the window of 100 connected to the same host instead of using a real -time window. This produces a data set called Host-based Traffic Features.
-  Different from the invasion of most DOS and Probing, there is no frequent sequence mode in R2L and U2R invasion. This is because DOS and Probing invasion contains many connections with the host in a short period of time. However, R2L and U2R invasion are embedded in data ports and packets, and they generally include only one connection.
-</p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
+<p>Some characteristics can be used to distinguish ordinary connections and invasion, such as:</p>
+<p>Same Host: Check the connection within two seconds of the previous connection as the current connection has the same destination host, and calculate and protocol -related behaviors, services, and so on.</p>
+<p>Same Service: Just check that the connection within two seconds has the same service as the current connection.</p>
+<p>Same Host and Same Service are also known as Time-based Traffic Features of the Connection Records.</p>
+<p>However, some probing attacks use more than two seconds time interval scanning hosts or ports, such as once a minute. Therefore, the connection record is also sorted by the destination host, and the feature is constructed by the window of 100 connected to the same host instead of using a real -time window. This produces a data set called Host-based Traffic Features.</p>
+<p>Different from the invasion of most DOS and Probing, there is no frequent sequence mode in R2L and U2R invasion. This is because DOS and Probing invasion contains many connections with the host in a short period of time. However, R2L and U2R invasion are embedded in data ports and packets, and they generally include only one connection.</p>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h3 id="description-of-the-pipeline"><strong>Description of the pipeline</strong></h3>
+<h3 id="description-of-the-pipeline"><strong>KDD99 dataset</strong></h3>
 <hr />
+<p>KDD CUP is a game of data mining analysis sponsored by SIGKDD. It is held once a year. KDD99 is a data set of invasion detection in the 1999 competition, but now the academic world has abandoned this data set. Using this datasets, we only first glimpse two classification algorithms.</p>
+<p>The purpose of the task is to detect network connections to distinguish normal and non-normal connections. There are about four categories of non-normal connection: DOS, R2L, U2R, and Probing, and there are several sub categories in each category.</p>
+<p>It is worth noting that the probability distribution of the data in the training set and the test set is different. The test set has 14 more attack subcategories than the training set. The official explanation is that this can simulate the real situation well, and the new attack category is generally a variation of the known attack category. Therefore, the algorithm model needs to be able to capture the features of each attack category well, and the dataset can be obtained on the official website.</p>
 
-<p>My pipeline consists of 6 steps. For illustration I have used an example image shown below to show the effect of all the operations in my pipeline.</p>
+<h3 id="description-of-the-pipeline"><strong>Data Preprocessing</strong></h3>
+<hr />
+<h4 id="1-color-to-grayscale-conversion">1. Original Data Preprocessing</h4>
+<p>The classification results of the original training set and test set are both specific classes of attacks, with a total of 24+14=38 types. Here, we do not consider such a detailed classification first, but only classify all connections into four attack categories. Therefore, based on the mapping relationship provided on the official website, we reduce the type attribute to 5 categories and replace it with the numbers 0, 1, 2, 3, and 4, representing the main categories and normal situations of the four attacks.</p>
+<h4 id="1-color-to-grayscale-conversion">2. Data Storage</h4>
+<p>In order to facilitate subsequent operations such as reading and sorting, and reduce runtime, we read and write the file data in the data directory to the MongoDB database. During the reading and writing process, pay attention to converting some variables into ints and floats before storing them, and add an index to the type attribute of the training dataset.</p>
+
+<h3 id="description-of-the-pipeline"><strong>Scikit Decision Tree Classification</strong></h3>
+<hr />
+<p>My pipeline consists of 7 steps. For illustration I have used an example image shown below to show the effect of all the operations in my pipeline.</p>
 
 <p align="center">
   <img src="/assets/img/lane_detection/original_image.jpg" />
 </p>
 
-<h4 id="1-color-to-grayscale-conversion">1. Color to grayscale conversion</h4>
 
-<p>The color image is converted to grayscale to make the computation easier and to detect lane lines of any color.</p>
+
+
+
+<h4 id="1-color-to-grayscale-conversion">1. Loading Data</h4>
+<p>We extract all the training and testing sets from MongoDB. Since the decision tree can accelerate training with ordered inputs, we use the sort command to sort the type attributes in the training set. Then, all the inputs in the training and testing sets are stored in the dataset, and all the output targets are stored in the datatarget. To distinguish between the training and testing sets, we use T_ Len records the size of the training set.</p>
 
 <p align="center">
   <img src="/assets/img/lane_detection/grayscale.jpg" />
 </p>
 
-<h4 id="2-gaussian-blur">2. Gaussian blur</h4>
 
-<p>Gaussian blur is applied on the grayscaled image to remove noise and spurious gradients. Gradients are calulated by the change in the intensity of gray value between adjacent pixels. More information about OpenCV’s Gaussian blur can be found <a href="http://docs.opencv.org/2.4/modules/imgproc/doc/filtering.html?highlight=gaussianblur#gaussianblur">here</a>. I used a kernel size of 3 for Gaussian blur since the Canny edge detector (described next) already includes Gaussian smoothing.</p>
+
+<h4 id="2-gaussian-blur">2. Category Variable Recoding</h4>
+<p>For categorical variables, such as male and female, high and low, these string variables cannot be directly input into the algorithm model and need to be recoded as numbers 1,2,3,4 or binary bitmaps.</p>
+<p>However, for scalars with ordered sizes such as 1,2,3,4, some algorithms understand that 2 is greater than 1, meaning that men are greater than women. In fact, men and women only represent men or women without any relationship between order and size. Therefore, binary encoding is generally used: men are represented by 01, and women are represented by 10. And this increases the number of variables, from one-dimensional variable sex to two-dimensional variables sex=male and sex=female. Therefore, if there are many types of categorical variables, the final encoded variable dimension will greatly increase, which is not conducive to calculation and is called a dimension disaster.</p>
+<p>For the decision tree algorithm, it utilizes information purity for classification, so encoding as 1,2,3 will not have any impact. So we will recode the three category variables (protocol_type, service, flag) in the dataset into a set of numbers.</p>
 
 <p align="center">
   <img src="/assets/img/lane_detection/Gaussian_blur.jpg" />
 </p>
 
-<h4 id="3-canny-transform">3. Canny transform</h4>
 
-<p><a href="http://docs.opencv.org/trunk/da/d22/tutorial_py_canny.html">Canny edge detection</a> is applied to the Gaussian-blurred image. This allows us to detect edges on the basis of change in the gradient intensity and direction at every pixel. The algorithm will first detect strong edge (strong gradient) pixels above the <code class="highlighter-rouge">high_threshold</code>, and reject pixels below the <code class="highlighter-rouge">low_threshold</code>. Next, pixels with values between the <code class="highlighter-rouge">low_threshold</code> and <code class="highlighter-rouge">high_threshold</code> will be included as long as they are connected to strong edges. The output edges is a binary image with white pixels tracing out the detected edges and black everywhere else. I used a <code class="highlighter-rouge">low_threshold</code> value of <code class="highlighter-rouge">50</code> and a <code class="highlighter-rouge">high_threshold</code> value of <code class="highlighter-rouge">150</code>.</p>
+
+<h4 id="3-canny-transform">3. Feature Selection</h4>
+<p>The following situations may occur between variables in a general dataset:</p>
+<p>1) Variables with strong correlation and severe interdependence can lead to redundant variables</p>
+<p>2) The data in variables is extremely sparse, with a large portion being either zero or meaningless</p>
+<p>3) The variable dimension is too high, and after recoding, the variable dimension has reached hundreds</p>
+<p>The above three situations are all very unfavorable for the training of the model, and the second situation can filter some sparse variables by setting a threshold; Scenario 1 and 3 can extract the main factors for dimensionality reduction through principal component analysis (PCA). In addition, there are also attribute subset selection methods: reducing the amount of data by deleting irrelevant or redundant attributes. There are three options: gradual forward selection, gradual backward selection, and decision tree induction.</p>
+<p>After the recoding of the previous category variables, dataset variables have 42 dimensions in total. The training of high-dimensional datasets in the decision tree is prone to overfitting, so we need to filter variables, that is, feature selection. A good set of features can directly affect the accuracy of the algorithm. Scikit has provided a tree based attribute subset selection method, We directly input the data into the ExtraTreesClassifier for training here, then use SelectFromModel to extract the trained model, and finally use the transform method to filter out important features.</p>
+<p>Due to the fact that variables in the test set also need to be filtered, but the filtering principle should be consistent with the training set, otherwise the input of the training set and the test set will be different. Therefore, we will store the index of this set of features in fea_index array.</p>
 
 <p align="center">
   <img src="/assets/img/lane_detection/Canny_edges.jpg" />
 </p>
 
-<h4 id="4-region-of-interest-mask">4. Region of interest mask</h4>
 
-<p>A mask is drawn to select only the relevant region in which there is a possibility of lane lines being present. This would be generally a quadrilateral shaped region in the bottom half of the image. The mask selects the white colors (edges) from the image obtained after applying Canny transformation using a bitwise and operation.</p>
+
+<h4 id="4-region-of-interest-mask">4. Cross Validation 1</h4>
+<p>Before training the model, we use 1/10 of the training set for cross validation and the remaining data for training. Therefore, we divide the training set into two parts:<p>
+<p>1) training_set、training_target: used to train the model<p>
+<p>2) test_set、test_ target: used for cross validation<p>
 
 <p align="center">
   <img src="/assets/img/lane_detection/masked_image.jpg" />
 </p>
 
-<h4 id="5-hough-transform">5. Hough transform</h4>
 
-<p><a href="https://alyssaq.github.io/2014/understanding-hough-transform/">Hough transform</a> is applied on the the image obtained after applying the region of interest mask. The probabilisitc Hough transform is used to construct line segments using the edge points detected in the previous step. More information about using Hough transform can be found <a href="http://docs.opencv.org/3.0-beta/doc/py_tutorials/py_imgproc/py_houghlines/py_houghlines.html">here</a>. The edges are segments colored in red. The coordinates of the end points of the line segments are returned by the Hough transform function.</p>
+
+
+<h4 id="5-hough-transform">5. Training Decision Tree Model</h4>
+<p>Decision tree is a non parametric supervised learning algorithm, commonly used are ID3, C4.5 and CART. ID3 and C4.5 are based on information entropy, CART is based on gini impurity. Scikit provides an optimized version of CART algorithm, which is encapsulated in DecisionTree Classifier, and has some main parameters:<p>
+<p>• criterion: The criterion for node splitting, gini or entropy<p>
+<p>• max_depth: the maximum depth of the tree. If the value is too large, the algorithm will overfitting the training set, while if the value is too small, the algorithm will be hindered from learning the data. The initial value is recommended to be 5, and then slowly increase it.<p>
+<p>• min_samples_split: The minimum number of samples that need to be split into child nodes. When the number of samples is less than this value, it is directly marked as a leaf node without continuing to generate child nodes. The larger the value, the fewer branches the tree has.<p>
+<p>• class_weight: When the number of categories in the input sample set varies greatly, the final shape of the tree tends to be generated in the direction of big data samples, resulting in imbalanced trees. Therefore, the weights of each category can be set. Classes with less data have greater weights, while those with more data have smaller weights, which can effectively balance the tree.<p>
+<p>Through repeated attempts, we found a good set of training parameters: using information entropy to split each node; min_ samples_ split＝30； Ensure that all training samples are fully balanced, that is, the number of input tuples is equal.<p>
 
 <p align="center">
   <img src="/assets/img/lane_detection/line_edges.jpg" />
 </p>
 
-<h4 id="6-drawing-lane-lines">6. Drawing lane lines</h4>
 
-<p>The line segments obtained in the previous step are extrapolated to draw straight red colored lines along the lane lines. This is accomplished by modifying the <code class="highlighter-rouge">draw_lines()</code> function in the following ways:</p>
+
+
+<h4 id="6-drawing-lane-lines">6. Cross Validation 2</h4>
+<p>We predict 1/10 of the training set (test_set), and compare the obtained predict value (trained_target) and actual value (test_target), and output confusion matrix and classification results statistics to verify the effectiveness of the trained model for data sets with the same probability distribution.</p>
 
 <ul>
   <li>
@@ -236,12 +229,22 @@ I did this project as a part of the Data Mining course. It is an implementation 
   <img src="/assets/img/lane_detection/lane_lines.jpg" />
 </p>
 
-<h4 id="project-video">Project Video</h4>
-<p><br /></p>
+
+
+<h4 id="1-color-to-grayscale-conversion">7. Testing</h4>
+<p>Finally, we test whether the trained model can predict test data well. We use T_len to retrieve the test_data_test and test_ data_target from the dataset, then use fea_index to extract sub attributes (features) from the test input, and finally compares the predicted value (test_ trained_ target) and actual value (test_ data_ target).</p>
+
 <p align="center">
-	<iframe width="500" height="300" src="https://www.youtube.com/embed/q_gZGQMwX00" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+  <img src="/assets/img/lane_detection/grayscale.jpg" />
 </p>
-<p><br /></p>
+
+
+
+
+
+
+
+
 <h3 id="potential-shortcomings"><strong>Potential shortcomings</strong></h3>
 <hr />
 
@@ -261,14 +264,17 @@ I did this project as a part of the Data Mining course. It is an implementation 
   <li>The lane lines can be smoothed by keeping track of the lane lines in the previous video frames.</li>
 </ul>
 
+<h3 id="possible-improvements"><strong>Repository</strong></h3>
+<hr />
+<p>https://github.com/LingbinNi/Intrusion-Detection<p>
+
+
 
   </div>
 
   <!-- Footer -->
   <footer>
-    &copy; Copyright 2022 Sheelabhadra Dey.
-
-
+    &copy; Copyright 2023 Lingbin Ni
   </footer>
 
   <!-- Core JavaScript Files -->
