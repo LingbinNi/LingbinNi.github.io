@@ -182,14 +182,6 @@
 
 <h3 class="title mt-4 p-0 text-left">3D genome analysis</h3>
 
-<div class="col mt-4 p-0">
-  Using the in situ Hi-C sequencing data, we checked the organization of A/B compartments and found certain differentiation of A/B compartments within chromosomes. For example, we observed differences around pericentromeric heterochromatin of chromosome 18 in SoyC13 and SoyC03, and variations in the euchromatin arms of chromosome 11 in SoyW02 and SoyC13. Despite these differences, the average A compartment percentages were relatively consistent across individual accessions. Collectively, these results reveal that the overall percentages of compartments are conserved, but the reorganization of A/B compartments within chromosomes occurs frequently in soybean accessions.
-</div>
-
-<div class="col mt-2 p-0">
-  Nevertheless, we found that the repeat percentage of the A compartment on several chromosomes was significantly higher than the average level, such as chromosome 1 of SoyC06. Tracing these A compartments showed that the highly repetitive regions mainly came from the regions of intersection between A compartments and B compartments, which were referred to as I regions in this study. We found the A compartments and B compartments from I regions also presented intermediate status. Further investigation using the data from 27 accessions revealed that the GC contents, TSS densities, and repeat percentages of I regions (including the A compartments or B compartments from I regions) exhibited an intermediate status between the A regions and the B regions. Overall, these data illustrate that I regions exhibit intermediate genomic features.
-</div>
-
 <h4 class="title mt-4 p-0 text-left">A/B compartment</h4>
 
 <div class="col mt-4 p-0">
@@ -250,6 +242,20 @@ We found the expression variations of some domesticated genes were closely relat
 
 <h3 class="title mt-4 text-left p-0">Conclusions</h3>
 
+<ol class="mt-2">
+  <li>
+    The first pan-3D genome related to plant domestication and improvement indicates conservative A/B compartments and dynamic TAD boundaries across plant accessions.
+  </li>
+  <li>
+    <b>Pairwise:</b> The first pan-3D genome related to plant domestication and improvement indicates conservative A/B compartments and dynamic TAD boundaries across plant accessions.
+  </li>
+  <li>
+    <b>Universal:</b> Use a single NMT model for all language pairs. In this case, an artificial word can be added to the source sentence denoting the target language for the translation. This results in a single model with \(P\) parameters, since the whole model is shared across all languages. This approach can result in overfitting to the high-resource languages. It can also limit the expressivity of the translation model for languages that are more "different" (e.g., for Turkish, if training using Italian, Spanish, Romanian, and Turkish). Ideally, we want something in-between pairwise and universal models.
+  </li>
+  <li>
+    <b>Per-Language Encoder/Decoder:</b> Use a separate encoder and a separate decoder for each language. This results in a total of \(LP\) parameters and lies somewhere between the pairwise and the universal approaches. However, no information can be shared between languages that are similar (e.g., Italian and Spanish).
+  </li>
+</ol>
 
 <h3 class="title mt-4 p-0 text-left">Where should you look to learn more?</h3>
 
