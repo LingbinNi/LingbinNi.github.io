@@ -104,47 +104,45 @@
 
 
 <p><br />
-In this post we learn how to teach a car to drive itself around a track by looking only at images of the road. The task was achieved on a simulator provided by <a href="https://www.udacity.com/">Udacity</a>. A convolutional neural network (CNN) was designed in Keras to predict steering angles from images captured by 3 cameras attached to the front of the car. For training the network, the car was driven around the track and images were collected using the cameras. The steering angles were also recorded at the same time. These images along with the steering angles were then fed into the CNN for training. Finally, the car was able to learn to maneuver around the track autonomously only with the help of images collected from the cameras.</p>
+This is the coursework of the Java Programming course. The work was finished by Lingbin Ni.</p>
 
-<p>The complete code for the project can be found <a href="https://github.com/sheelabhadra/CarND-Behavioral-Cloning-P3">here</a>.</p>
+<p>The complete code for the project can be found <a href="https://github.com/LingbinNi/Java-Communication">here</a>.</p>
 
-<h3 id="model-architecture-and-training-strategy"><strong>Model Architecture and Training Strategy</strong></h3>
+
+
+<h3 id="model-architecture-and-training-strategy"><strong>Coursework requirements</strong></h3>
 <hr />
 
-<h4 id="solution-design-approach">Solution Design Approach</h4>
+<1i>Data sending and receiving (format and data customization), user interface customization;</1i>
+<1i>One receiver, one sender; After receiving the message sent by the sender, the receiver prints the sent message along with the sender's address and port number, and then feeds back the message "Received!" to the sender;</1i>
+<1i>The sender prints out the feedback message from the receiver.</1i>
+
+
+
+<h3 id="model-architecture-and-training-strategy"><strong>Program code</strong></h3>
+<hr />
+
+<h4 id="solution-design-approach">Reciver</h4>
 <p>The overall strategy for deriving a model architecture was to start with a very simple convolution neural network. This is because the most important cue for determing the steering angle was to determine the curvature of the road. At the same time it was also important for the network to distinguish between road and markings, gravels etc. along the sides of the road. So, I used color images to help the network learn these details.</p>
 
-<h4 id="final-model-architecture">Final Model Architecture</h4>
-
-<p>The final model architecture consisted of a convolution neural network with the following layers and layer sizes.</p>
-
+<h4 id="final-model-architecture">Sender</h4>
 <p>Here is a visualization of the architecture.</p>
 
-<p align="center">
-  <img src="/assets/img/behavioral_cloning/cnn_arch.png" width="720" />
-</p>
+<h4 id="solution-design-approach">Operating instructions</h4>
+<p>Run the getter first, then run the sender.</p>
 
 
-<h3 id="creation-of-the-training-set--training-process"><strong>Creation of the Training Set &amp; Training Process</strong></h3>
+
+<h3 id="model-architecture-and-training-strategy"><strong>Running results</strong></h3>
 <hr />
 
-<p>I used the dataset provided by Udacity to train the CNN. Below are a few sample images from the dataset.</p>
+<h4 id="solution-design-approach">Sender.java displays:</h4>
+<p>Feedback message: Received!</p>
 
-<p align="center">
-  <img src="/assets/img/behavioral_cloning/sample_images.png" width="720" />
-</p>
-
-<h4 id="data-augmentation">Data Augmentation</h4>
-<p>To balance the data and to add more meaningful data to my training data without manually driving the car around the tracks, I used a few data augmentation techniques as discussed in the Nvidia paper and this <a href="https://chatbotslife.com/using-augmentation-to-mimic-human-driving-496b569760a9">blog post</a>.</p>
-
-<p><strong>Using the right and left camera images</strong><br />
-There are 3 cameras attached at the front of the car in the center, left, and right. I used the left and right camera images for recovery i.e. I added a small angle of 0.25 to the steering angle for left camera and subtracted a small angle of 0.25 from the right camera. The main idea being the left camera has to move right, and right camera has to move left to get to the center. So, basically I treated the left and right camera images as center images by adjusting the steering angles. This led to a 3 fold increase in training data.</p>
-
-<p>This also works as the recovery data which helps the vehicle recover from the left side and right sides of the road back to the center. This helps the vehicle to learn to return to the center of the track everytime it sways away from it. For example, here is an example showing the center, left, and right images with the modified steering angles.</p>
-
-<p align="center">
-  <img src="/assets/img/behavioral_cloning/sample_image.png" />
-</p>
+<h4 id="solution-design-approach">Getter.java displays:</h4>
+<p>Message: hello, world!</p>
+<p>IP address: 127.0.0.1</p>
+<p>Port number: 49194</p>
 
   </div>
 
