@@ -110,142 +110,72 @@
 </div>
 
 <div class="container-fluid p-0 text-justify">
-  <p>This library is a Scala API for <a href="https://www.tensorflow.org">https://www.tensorflow.org</a>. It attempts to provide most of
-the functionality provided by the official Python API, while at the same type being strongly-typed and adding some new
-features. It is a work in progress and a project I started working on for my personal research purposes. Much of the API
-should be relatively stable by now, but things are still likely to change. That is why there is no official release of
-this library yet.</p>
+  <p>
+  Soybean is one of the most important crops worldwide. A high-quality reference genome will facilitate its functional analysis and molecular breeding. Previously, we de novo assembled a high-quality Chinese soybean genome Gmax_ZH13. However, due to technical limitations at the time when we generated Gmax_ZH13, a large number of small contigs were not anchored onto chromosomes. Therefore, we here build a new golden reference genome for Zhonghuang 13 consisting of 20 nearly complete chromosomes by adding more single-molecule real time (SMRT) sequencing reads. Furthermore, we add large RNA-seq and smRNA-seq datasets for improving the annotation of its protein coding genes.
+  </p>
 
-<p>Please refer to the main website for documentation and tutorials. Here
-are a few useful links:</p>
+  <p>
+  In this project, I mainly conducted the tissue collection, library preparation, and further analysis for RNA-seq and smRNA-seq.
+  </p>
 
-<ul>
-  <li><a href="https://eaplatanios.github.io/tensorflow_scala/installation.html">Installation</a></li>
-  <li><a href="https://eaplatanios.github.io/tensorflow_scala/getting_started.html">Getting Started Guide</a></li>
-  <li><a href="https://eaplatanios.github.io/tensorflow_scala/architecture.html">Library Architecture</a></li>
-  <li><a href="https://eaplatanios.github.io/tensorflow_scala/contributing.html">Contributing</a></li>
-</ul>
-
-<h2 id="main-features">Main Features</h2>
+<h2 id="main-features">Main Workflow</h2>
 
 <ul>
   <li>
-    <p>Easy manipulation of tensors and computations involving tensors (similar to NumPy in Python):</p>
-
-    <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">t1</span> <span class="k">=</span> <span class="nc">Tensor</span><span class="o">(</span> <span class="mf">1.2</span><span class="o">,</span> <span class="mf">4.5</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">t2</span> <span class="k">=</span> <span class="nc">Tensor</span><span class="o">(-</span><span class="mf">0.2</span><span class="o">,</span> <span class="mf">1.1</span><span class="o">)</span>
-<span class="n">t1</span> <span class="o">+</span> <span class="n">t2</span> <span class="o">==</span> <span class="nc">Tensor</span><span class="o">(</span><span class="mf">1.0</span><span class="o">,</span> <span class="mf">5.6</span><span class="o">)</span>
-</code></pre>
-    </div>
+    <p>Tissue collection:</p>
   </li>
+
+  <p>
+  To improve the accuracy of gene annotation, 27 tissues were collected from Zhonghuang 13 plants during their growing season at the experimental station of the Institute of Genetics and Developmental Biology, Chinese Academy of Sciences, in 2018. Each tissues have two replications.
+  </p>
+
   <li>
-    <p>High-level API for creating, training, and using neural networks. For example, the following code shows how simple it
-is to train a multi-layer perceptron for MNIST using TensorFlow for Scala. Here we omit a lot of very powerful
-features such as summary and checkpoint savers, for simplicity, but these are also very simple to use.</p>
-
-    <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">org.platanios.tensorflow.api._</span>
-<span class="k">import</span> <span class="nn">org.platanios.tensorflow.api.tf.learn._</span>
-<span class="k">import</span> <span class="nn">org.platanios.tensorflow.data.loaders.MNISTLoader</span>
-
-<span class="c1">// Load and batch data using pre-fetching.
-</span><span class="k">val</span> <span class="n">dataSet</span> <span class="k">=</span> <span class="nc">MNISTLoader</span><span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="nc">Paths</span><span class="o">.</span><span class="n">get</span><span class="o">(</span><span class="s">"/tmp"</span><span class="o">))</span>
-<span class="k">val</span> <span class="n">trainImages</span> <span class="k">=</span> <span class="nc">DatasetFromSlices</span><span class="o">(</span><span class="n">dataSet</span><span class="o">.</span><span class="n">trainImages</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">trainLabels</span> <span class="k">=</span> <span class="nc">DatasetFromSlices</span><span class="o">(</span><span class="n">dataSet</span><span class="o">.</span><span class="n">trainLabels</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">trainData</span> <span class="k">=</span>
-  <span class="n">trainImages</span><span class="o">.</span><span class="n">zip</span><span class="o">(</span><span class="n">trainLabels</span><span class="o">)</span>
-      <span class="o">.</span><span class="n">repeat</span><span class="o">()</span>
-      <span class="o">.</span><span class="n">shuffle</span><span class="o">(</span><span class="mi">10000</span><span class="o">)</span>
-      <span class="o">.</span><span class="n">batch</span><span class="o">(</span><span class="mi">256</span><span class="o">)</span>
-      <span class="o">.</span><span class="n">prefetch</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
-
-<span class="c1">// Create the MLP model.
-</span><span class="k">val</span> <span class="n">input</span> <span class="k">=</span> <span class="nc">Input</span><span class="o">(</span><span class="nc">UINT8</span><span class="o">,</span> <span class="nc">Shape</span><span class="o">(-</span><span class="mi">1</span><span class="o">,</span> <span class="mi">28</span><span class="o">,</span> <span class="mi">28</span><span class="o">))</span>
-<span class="k">val</span> <span class="n">trainInput</span> <span class="k">=</span> <span class="nc">Input</span><span class="o">(</span><span class="nc">UINT8</span><span class="o">,</span> <span class="nc">Shape</span><span class="o">(-</span><span class="mi">1</span><span class="o">))</span>
-<span class="k">val</span> <span class="n">layer</span> <span class="k">=</span> <span class="nc">Flatten</span><span class="o">()</span> <span class="o">&gt;&gt;</span> <span class="nc">Cast</span><span class="o">(</span><span class="nc">FLOAT32</span><span class="o">)</span> <span class="o">&gt;&gt;</span>
-    <span class="nc">Linear</span><span class="o">(</span><span class="mi">128</span><span class="o">,</span> <span class="n">name</span> <span class="k">=</span> <span class="s">"Layer_0"</span><span class="o">)</span> <span class="o">&gt;&gt;</span> <span class="nc">ReLU</span><span class="o">(</span><span class="mf">0.1f</span><span class="o">)</span> <span class="o">&gt;&gt;</span>
-    <span class="nc">Linear</span><span class="o">(</span><span class="mi">64</span><span class="o">,</span> <span class="n">name</span> <span class="k">=</span> <span class="s">"Layer_1"</span><span class="o">)</span> <span class="o">&gt;&gt;</span> <span class="nc">ReLU</span><span class="o">(</span><span class="mf">0.1f</span><span class="o">)</span> <span class="o">&gt;&gt;</span>
-    <span class="nc">Linear</span><span class="o">(</span><span class="mi">32</span><span class="o">,</span> <span class="n">name</span> <span class="k">=</span> <span class="s">"Layer_2"</span><span class="o">)</span> <span class="o">&gt;&gt;</span> <span class="nc">ReLU</span><span class="o">(</span><span class="mf">0.1f</span><span class="o">)</span> <span class="o">&gt;&gt;</span>
-    <span class="nc">Linear</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="n">name</span> <span class="k">=</span> <span class="s">"OutputLayer"</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">trainingInputLayer</span> <span class="k">=</span> <span class="nc">Cast</span><span class="o">(</span><span class="nc">INT64</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">loss</span> <span class="k">=</span> <span class="nc">SparseSoftmaxCrossEntropy</span><span class="o">()</span> <span class="o">&gt;&gt;</span> <span class="nc">Mean</span><span class="o">()</span>
-<span class="k">val</span> <span class="n">optimizer</span> <span class="k">=</span> <span class="nc">GradientDescent</span><span class="o">(</span><span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">6</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">model</span> <span class="k">=</span> <span class="nc">Model</span><span class="o">(</span><span class="n">input</span><span class="o">,</span> <span class="n">layer</span><span class="o">,</span> <span class="n">trainInput</span><span class="o">,</span> <span class="n">trainingInputLayer</span><span class="o">,</span> <span class="n">loss</span><span class="o">,</span> <span class="n">optimizer</span><span class="o">)</span>
-
-<span class="c1">// Create an estimator and train the model.
-</span><span class="k">val</span> <span class="n">estimator</span> <span class="k">=</span> <span class="nc">Estimator</span><span class="o">(</span><span class="n">model</span><span class="o">)</span>
-<span class="n">estimator</span><span class="o">.</span><span class="n">train</span><span class="o">(</span><span class="n">trainData</span><span class="o">,</span> <span class="nc">StopCriteria</span><span class="o">(</span><span class="n">maxSteps</span> <span class="k">=</span> <span class="nc">Some</span><span class="o">(</span><span class="mi">1000000</span><span class="o">)))</span>
-</code></pre>
-    </div>
-
-    <p>And by changing a few lines to the following code, you can get checkpoint capability, summaries, and seamless
-integration with TensorBoard:</p>
-
-    <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">loss</span> <span class="k">=</span> <span class="n">loss</span> <span class="o">&gt;&gt;</span> <span class="n">tf</span><span class="o">.</span><span class="n">learn</span><span class="o">.</span><span class="nc">ScalarSummary</span><span class="o">(</span><span class="s">"Loss"</span><span class="o">)</span>                  <span class="c1">// Collect loss summaries for plotting
-</span><span class="k">val</span> <span class="n">summariesDir</span> <span class="k">=</span> <span class="nc">Paths</span><span class="o">.</span><span class="n">get</span><span class="o">(</span><span class="s">"/tmp/summaries"</span><span class="o">)</span>                 <span class="c1">// Directory in which to save summaries and checkpoints
-</span><span class="k">val</span> <span class="n">estimator</span> <span class="k">=</span> <span class="nc">Estimator</span><span class="o">(</span><span class="n">model</span><span class="o">,</span> <span class="nc">Configuration</span><span class="o">(</span><span class="nc">Some</span><span class="o">(</span><span class="n">summariesDir</span><span class="o">)))</span>
-<span class="n">estimator</span><span class="o">.</span><span class="n">train</span><span class="o">(</span>
-  <span class="n">trainData</span><span class="o">,</span> <span class="nc">StopCriteria</span><span class="o">(</span><span class="n">maxSteps</span> <span class="k">=</span> <span class="nc">Some</span><span class="o">(</span><span class="mi">1000000</span><span class="o">)),</span>
-  <span class="nc">Seq</span><span class="o">(</span>
-    <span class="nc">SummarySaverHook</span><span class="o">(</span><span class="n">summariesDir</span><span class="o">,</span> <span class="nc">StepHookTrigger</span><span class="o">(</span><span class="mi">100</span><span class="o">)),</span>      <span class="c1">// Save summaries every 1000 steps
-</span>    <span class="nc">CheckpointSaverHook</span><span class="o">(</span><span class="n">summariesDir</span><span class="o">,</span> <span class="nc">StepHookTrigger</span><span class="o">(</span><span class="mi">1000</span><span class="o">))),</span> <span class="c1">// Save checkpoint every 1000 steps
-</span>  <span class="n">tensorBoardConfig</span> <span class="k">=</span> <span class="nc">TensorBoardConfig</span><span class="o">(</span><span class="n">summariesDir</span><span class="o">))</span>         <span class="c1">// Launch TensorBoard server in the background
-</span></code></pre>
-    </div>
-
-    <p>If you now browse to <code class="highlighter-rouge">https://127.0.0.1:6006</code> while training, you can see the training progress:</p>
-
-    <div class="col">
-  <img src="/assets/img/tensorboard_mnist_example_plot.png" alt="tensorboard_mnist_example_plot" width="100%" />
-</div>
+    <p>Library preparation:</p>
   </li>
+
+  <p>
+  Total RNA of each sample was isolated using RNA isolation kit (Tiangen, Beijing, China) according to the manufacturer’s protocol. Libraries for RNA-seq were constructed and sequenced on the Illumina HiSeq X Ten platform for each sample. Libraries for smRNA-seq were constructed and sequenced on the Illumina NextSeq 550AR platform. In total, 353 Gb reads were produced.
+  </p>
+
   <li>
-    <p>Low-level graph construction API, similar to that of the Python API, but strongly typed wherever possible:</p>
-
-    <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">org.platanios.tensorflow.api._</span>
-
-<span class="k">val</span> <span class="n">inputs</span> <span class="k">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="o">(</span><span class="nc">FLOAT32</span><span class="o">,</span> <span class="nc">Shape</span><span class="o">(-</span><span class="mi">1</span><span class="o">,</span> <span class="mi">10</span><span class="o">))</span>
-<span class="k">val</span> <span class="n">outputs</span> <span class="k">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="o">(</span><span class="nc">FLOAT32</span><span class="o">,</span> <span class="nc">Shape</span><span class="o">(-</span><span class="mi">1</span><span class="o">,</span> <span class="mi">10</span><span class="o">))</span>
-<span class="k">val</span> <span class="n">predictions</span> <span class="k">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">createWith</span><span class="o">(</span><span class="n">nameScope</span> <span class="k">=</span> <span class="s">"Linear"</span><span class="o">)</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">weights</span> <span class="k">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable</span><span class="o">(</span><span class="s">"weights"</span><span class="o">,</span> <span class="nc">FLOAT32</span><span class="o">,</span> <span class="nc">Shape</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">1</span><span class="o">),</span> <span class="n">tf</span><span class="o">.</span><span class="n">zerosInitializer</span><span class="o">)</span>
-  <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="o">(</span><span class="n">inputs</span><span class="o">,</span> <span class="n">weights</span><span class="o">)</span>
-<span class="o">}</span>
-<span class="k">val</span> <span class="n">loss</span> <span class="k">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">sum</span><span class="o">(</span><span class="n">tf</span><span class="o">.</span><span class="n">square</span><span class="o">(</span><span class="n">predictions</span> <span class="o">-</span> <span class="n">outputs</span><span class="o">))</span>
-<span class="k">val</span> <span class="n">optimizer</span> <span class="k">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="nc">AdaGrad</span><span class="o">(</span><span class="mf">1.0</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">trainOp</span> <span class="k">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">minimize</span><span class="o">(</span><span class="n">loss</span><span class="o">)</span>
-</code></pre>
-    </div>
+    <p>Protein coding genes annotation:</p>
   </li>
+
+  <p>
+  The RNA-seq data, together with the Iso-seq reads used for annotation in the last version, were used as expression sequence tag (EST) evidences to predict protein coding genes using MAKER, which was a professional pipeline popularly used in gene prediction. We annotated a total of 55,443 protein coding genes containing 96,366 mRNAs in the nuclear genome. We found that 97% of the 1,440 single copy Embryophyta genes in BUSCO_v3 were completely assembled, confirming the high quality of our annotation. We found that 42,259 of the newly annotated genes matching to the genes in the last version, whose IDs were therefore inherited from Gmax_ZH13. In addition, we annotated 81 and 49 protein coding genes for chloroplast genome and mitochondrial genome respectively.
+  </p>
+
   <li>
-    <p>Numpy-like indexing/slicing for tensors. For example:</p>
+    <p>MIRNA genes annotation:</p>
+  </li>
 
-    <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">tensor</span><span class="o">(</span><span class="mi">2</span> <span class="o">::</span> <span class="mi">5</span><span class="o">,</span> <span class="o">---,</span> <span class="mi">1</span><span class="o">)</span> <span class="c1">// is equivalent to numpy's 'tensor[2:5, ..., 1]'
-</span></code></pre>
-    </div>
-  </li>
-  <li>
-    <p>Efficient interaction with the native library that avoids unnecessary copying of data. All tensors are created and
-managed by the native TensorFlow library. When they are passed to the Scala API (e.g., fetched from a TensorFlow
-session), we use a combination of weak references and a disposing thread running in the background. Please refer to
-<a href="https://github.com/eaplatanios/tensorflow_scala/blob/master/modules/api/src/main/scala/org/platanios/tensorflow/api/utilities/Disposer.scala"><code class="highlighter-rouge">Disposer.scala</code></a>,
-for the implementation.</p>
-  </li>
+  <p>
+  To annotate MIRNA genes, small RNAs from the same 27 samples used for protein coding gene annotation were sequenced. Using these reads, we annotated 331 MIRNA genes. Transcripts of these loci generated 349 pair of miRNAs (miRNA-3p and miRNA-5p). Using the RNA sequence and small RNA sequence data of 27 samples, we provided a detailed expression profiling for all the protein coding genes and miRNAs.
+  </p>
+
 </ul>
+
+<h2 id="References">References</h2>
+
+  <div class="col mt-4 p-0" style="color: #78909c; font-size: 14px;">
+  Shen Y, Du H, Liu Y, Ni L, Wang Z, Liang C, Tian Z. (2019). <a href="https://link.springer.com/article/10.1007/s11427-019-9822-2" target="_blank"><i>Update soybean Zhonghuang 13 genome to a golden reference</i></a>. Sci China Life Sci 62, 1257-1260.
+  </div>
 
 <h2 id="funding">Funding</h2>
 
-<p>Funding for the development of this library has been generously provided by the following sponsors:</p>
+<p>Funding for the de novo assembly and sequence analysis of the genome has been generously provided by the following sponsors:</p>
 
 <div class="col table-responsive">
 <table class="table table-sm table-borderless">
   <tr>
     <td class="p-1 text-center align-middle" style="width: 30%;">
-      <img class="img-responsive" style="width: 80%;" src="/assets/img/cmu_logo.svg" alt="cmu_logo" />
+      <img class="img-responsive" style="width: 80%;" src="/assets/img/CAS.jpg" alt="cmu_logo" />
     </td>
     <td class="p-1 text-center align-middle" style="width: 30%;">
-      <img class="img-responsive" style="width: 80%;" src="/assets/img/nsf_logo.svg" alt="cmu_logo" />
+      <img class="img-responsive" style="width: 80%;" src="/assets/img/NSFC.jpeg" alt="cmu_logo" />
     </td>
     <td class="p-1 text-center align-middle" style="width: 30%;">
-      <img class="img-responsive" style="width: 80%;" src="/assets/img/afosr_logo.gif" alt="cmu_logo" />
+      <img class="img-responsive" style="width: 80%;" src="/assets/img/PCCE.png" alt="cmu_logo" />
     </td>
   </tr>
   <tr>
@@ -262,9 +192,7 @@ for the implementation.</p>
 
   <!-- Footer -->
   <footer>
-    &copy; Copyright 2022 Anthony Platanios.
-
-
+    &copy; Copyright 2023 Lingbin Ni
   </footer>
 
   <!-- Core JavaScript Files -->
