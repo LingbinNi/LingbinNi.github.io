@@ -20,9 +20,9 @@
   <!-- Header -->
   <nav id="navbar" class="navbar fixed-top navbar-expand-md grey lighten-5 z-depth-1 navbar-light">
     <div class="container-fluid p-0">
-      
+
         <a class="navbar-brand title font-weight-lighter" href="/"><span class="font-weight-bold">Otilia</span> Stretcu</a>
-      
+
       <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -31,52 +31,52 @@
           <li class="nav-item ">
             <a class="nav-link" href="/">
               about
-              
+
             </a>
           </li>
-          
-            
-          
-            
+
+
+
+
               <li class="nav-item ">
                   <a class="nav-link" href="/cv/">
                     curriculum vitae
-                    
+
                   </a>
               </li>
-            
-          
-            
-          
-            
+
+
+
+
+
               <li class="nav-item ">
                   <a class="nav-link" href="/projects/">
                     projects
-                    
+
                   </a>
               </li>
-            
-          
-            
+
+
+
               <li class="nav-item ">
                   <a class="nav-link" href="/publications/">
                     publications
-                    
+
                   </a>
               </li>
-            
-          
-            
+
+
+
               <li class="nav-item ">
                   <a class="nav-link" href="/teaching/">
                     teaching
-                    
+
                   </a>
               </li>
-            
-          
-            
-          
+
+
+
+
         </ul>
       </div>
     </div>
@@ -91,7 +91,7 @@
 
   <!-- Content -->
   <div class="content">
-    
+
   <h1>Cmlh</h1>
   <h6></h6>
 
@@ -104,8 +104,8 @@
   <!-- Footer -->
   <footer>
     &copy; Copyright 2021 Otilia Stretcu.
-    
-    
+
+
   </footer>
 
   <!-- Core JavaScript Files -->
@@ -127,13 +127,13 @@
       var progressBar = $('#progress');
       progressBar.css({ 'top': navbarHeight });
       var getMax = function() { return $(document).height() - $(window).height(); }
-      var getValue = function() { return $(window).scrollTop(); }   
+      var getValue = function() { return $(window).scrollTop(); }
       // Check if the browser supports the progress element.
       if ('max' in document.createElement('progress')) {
         // Set the 'max' attribute for the first time.
         progressBar.attr({ max: getMax() });
         progressBar.attr({ value: getValue() });
-    
+
         $(document).on('scroll', function() {
           // On scroll only the 'value' attribute needs to be calculated.
           progressBar.attr({ value: getValue() });
